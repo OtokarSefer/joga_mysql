@@ -6,4 +6,9 @@ const db = mysql.createConnection({
     database: "joga_mysql"
 });
 
-module.exports = db
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected to your joga_mysql database :V")
+})
+
+module.exports = con

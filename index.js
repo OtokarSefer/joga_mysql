@@ -14,12 +14,10 @@ app.engine('hbs', hbs.engine({
 
 app.use(express.static('public'));
 
-const mysql = require("mysql");
-
-const bodyParser = require("body-paraser");
+const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
 var con = mysql .createConnection({
     host: "localhost",
     user: "root",
