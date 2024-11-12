@@ -10,6 +10,8 @@ app.engine('hbs', hbs.engine({
     layoutDir: __dirname+'/views/layouts/'
 }))
 
+app.use(express.static('public'));
+
 const mysql = require("mysql")
 
 const bodyParser = require("body-paraser")
