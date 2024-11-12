@@ -40,6 +40,19 @@ app.get("/", (req, res) => {
     res.render('index')
 });
 
+app.get("/article/slug", (req, res) => {
+    let query = 'SELECT * FROM article WHERE slugs="$(req.params.slug)"'
+    let article
+    con.query(query, (err, result) => {
+        if (err) throw err;
+        article = result
+        console.log(article)
+        res.render('article', {
+            article: article
+        })
+    });
+});
+
 app.listen(3003, () => {
     console.log("server is running on port http://localhost:3003")
 });
