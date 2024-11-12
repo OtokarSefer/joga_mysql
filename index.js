@@ -1,9 +1,11 @@
 const express = require("express")
 const app = express();
+
 const path = require("path");
-const hbs = require('path');
 const hbs = require('express-handlebars');
-app.set('views engine', 'hbs');
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs')
 app.engine('hbs', hbs.engine({
     extname:'hbs',
     defaultLayout: 'main',
@@ -17,31 +19,49 @@ const mysql = require("mysql");
 const bodyParser = require("body-paraser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+const mysql = require("mysql");
 var con = mysql .createConnection({
     host: "localhost",
     user: "root",
     password: "qwerty",
     dataset: "joga_mysql"
 });
-
 con.connect((err) => {
     if(err) throw err;
     console.log("connection to joga_mysql db")
 });
 
-app.get("/", (req, res) => {
-    let query = "SELECT * FROM article";
-    let articles = []
-    con.query(query, (err, result) => {
+const articleRoutes = require('./routes/article');
+app.use('/', articleRoutes);
+app.use('/article', articleRoutes)
+
+app.get("/author/:author_id", (req, res) => {
+    let query = `SELECT * FROM author WHERE id ="$(req.params.author_id)"`
+    let articles
+    con.query = (query, (err, result) => {
         if (err) throw err;
         articles = result
         console.log(articles)
+        query = `SELECT * FROM author WHERE id="${req.params.author_id}"`
+        let author
+        con.query(query, (err, result) => {
+            if (err) throw err;
+            author = result
+            console.log('autor', {
+                author: author,
+                articles: articles
+            })
+        })        
     })
-    res.render('index')
-});
+})
 
 app.get("/article/slug", (req, res) => {
-    let query = 'SELECT * FROM article WHERE slugs="$(req.params.slug)"'
+    let query = `SELECT *
+    article.name as article_name,
+    author.name as author_name
+    FROM article
+    INNER JOIN author
+    ON author.id = article.author_id WHERE slugs="${req.params.slug}"`
     let article
     con.query(query, (err, result) => {
         if (err) throw err;
