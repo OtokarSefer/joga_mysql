@@ -1,5 +1,3 @@
-// controllers/authorController.js
-
 const db = require('../utils/db');
 
 exports.AuthorsID = (req, res) => {

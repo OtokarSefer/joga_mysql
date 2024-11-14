@@ -1,5 +1,3 @@
-// controllers/articleController.js
-
 const db = require('../utils/db');
 
 exports.getAllarticle = (req, res) => {
