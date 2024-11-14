@@ -1,37 +1,24 @@
-// Databases connection
-const con = require('../utils/db');
+// controllers/authorController.js
 
-const AuthorsID = (req, res) => {
-    const authorId = req.params.id;  // Get the author ID from the URL
-  
-    // Query the authors table to get the author's details
-    con.query('SELECT * FROM author WHERE id = ?', [authorId], (err, authorResults) => {
-        // Errori korral teate saatmine >:
-      if (err) {
-        return res.status(500).send('Error retrieving author data');
-      }
-  
-      if (authorResults.length === 0) {
-        return res.status(404).send('Author not found');
-      }
-  
-      const author = authorResults[0];  // Assuming only one author is returned
-  
-      // Query the articles table to get the articles by this author
-      con.query('SELECT * FROM article WHERE author_id = ?', [authorId], (err, articlesResults) => {
-        if (err) {
-          return res.status(500).send('Error retrieving articles');
+const db = require('../utils/db');
+
+exports.AuthorsID = (req, res) => {
+    const authorId = req.params.id;
+    const query = 'SELECT * FROM author WHERE id = ?';
+    const articleQuery = 'SELECT * FROM article WHERE author_id = ?';
+
+    db.query(query, [authorId], (err, authorResult) => {
+        if (err) throw err;
+        if (authorResult.length > 0) {
+            db.query(articleQuery, [authorId], (err, articleResult) => {
+                if (err) throw err;
+                res.render('author', {
+                    author: authorResult[0],
+                    article: articleResult
+                });
+            });
+        } else {
+            res.status(404).send('Author not found');
         }
-  
-        // Send the data to a view (replace with your template rendering logic)
-        res.render('author', { 
-            author: author, 
-            articles: articlesResults 
-          });
-      });
     });
-};
-
-module.exports = {
-    AuthorsID
 };

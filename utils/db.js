@@ -1,14 +1,18 @@
-const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "qwerty",
-    database: "joga_mysql"
+const mysql = require('mysql2')
+// Mysql2 because it works for me
+
+// Creating connection in MySql db
+const con =  mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'qwerty',
+    database: 'joga_mysql'
 });
 
-db.connect(function (err) {
+con.connect(function (err) {
     if (err) throw err;
-    console.log("Connected to your joga_mysql database :V");
+    console.log("Connected to joga_mysql database");
 });
 
-module.exports = db;
+
+module.exports = con;

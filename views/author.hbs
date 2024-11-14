@@ -1,16 +1,17 @@
 <h1>Author: {{author.name}}</h1>
+<h2>article by {{author.name}}:</h2>
 
-<h2>Articles by {{author.name}}:</h2>
-{{#if articles.length}}
+{{#if article.length}}
   <ul>
-    {{#each articles}}
+    {{#each article}}
+      <li>
         <a href="/article/{{this.slug}}">
-          <img src="/images/{{this.image}}" alt="{{this.name}}" />
+          <img src="/images/{{this.image}}" alt="{{this.name}}">
           <h3>{{this.name}}</h3>
         </a>
-        <hr>
+      </li>
     {{/each}}
   </ul>
 {{else}}
-  <p>No articles found for this author.</p>
+  <p>No article found for this author.</p>
 {{/if}}
