@@ -1,10 +1,14 @@
-
 const express = require('express');
 const app = express();
 const path = require('path');
 const hbs = require('express-handlebars');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+
+const articleRoutes = require('./routes/article')
+
+app.use('/', articleRoutes)
+app.use('/article', articleRoutes)
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
