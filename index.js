@@ -27,8 +27,6 @@ app.use('/', ArticleRoutes);
 app.use('/article', ArticleRoutes)
 app.use('/author', AuthorRoutes);
 
-// Kogu aeg saan errori, et keegi juba kasutab seda porti niiet tegin selle natuke paremaks, et kui keegi juba kasutab seda porti pean ainult constanti port vahetama, et saada enda serverit startida
-
 const port = 3007;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
